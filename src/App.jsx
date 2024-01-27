@@ -1,43 +1,15 @@
 import './App.css'
 import { useState } from 'react'
+import { Square } from './Square.jsx'
+import { Turns } from './constantes.js'
+import { checkGanador } from './checkganador.js'
 
-const Turns = {
-  X: 'X',
-  O: 'O',
-}
-
-
-const Square = ({ children, isSelected, updateBoard, index }) => {
-  const className = `square ${isSelected ? 'is-selected' : ''}`
-
-  const handleClick = () => {
-    updateBoard(index)
-  }
-  return (
-    <div onClick={handleClick} className={className}>
-      {children}
-    </div>
-  )
-
-}
-const combosGanadores = [
-  [0,1,2], [3,4,5], [6,7,8], [0,4,8], [2,4,6], [1,4,7]
-]
 
 function App() {
   const [board, setBoard] = useState(Array(9).fill(null))
   const [turn, setTurn] = useState(Turns.X)
   const [ganador, setGanador] = useState(null)
 
-  const checkGanador = (checkTablero) => {
-    for (const combo of combosGanadores) {
-      const [a,b,c] = combo
-      if ( checkTablero[a] === checkTablero[b] && checkTablero[a] === checkTablero[c])
-      {
-        return checkTablero[a]
-      }
-    }
-  }
   
   const checkFin = (newBoard) => {
     return newBoard.every((square) => square != null)
@@ -73,14 +45,14 @@ function App() {
       <h1> Ta-Te-Ti </h1>
       <button onClick={nuevoJuego}>Empezar de nuevo</button>
       <section className='game'>
-        {board.map((_, index) =>
+        {board.map((square, index) =>
         (
           <Square
             key={index}
             index={index}
             updateBoard={updateBoard}
           >
-            {board[index]}
+            {square}
           </Square>
           
         ))}
